@@ -20,9 +20,7 @@ module Fog
 
       class Real
         def get_vms
-          response = request(:account, :get_virtual_guests, :query => 'objectMask=mask[datacenter,tagReferences,blockDevices,blockDeviceTemplateGroup.globalIdentifier,operatingSystem.passwords.password]')
-          response.body.map { |vm| vm['bare_metal'] = false }
-          response
+          request(:account, :get_virtual_guests, :query => 'objectMask=mask[datacenter,tagReferences,blockDevices,blockDeviceTemplateGroup.globalIdentifier,operatingSystem.passwords.password]')
         end
       end
     end

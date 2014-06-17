@@ -25,10 +25,13 @@ module Fog
         def get(identifier)
           return nil if identifier.nil? || identifier == ""
           response = service.get_vm(identifier)
+          bare_metal = false
           if response.status == 404 # we didn't find it as a VM, look for a BMC server
             response = service.get_bare_metal_server(identifier)
+            bare_metal = true
           end
           data = response.body
+          data['bare_metal'] = bare_metal
           new.merge_attributes(data)
         rescue Excon::Errors::NotFound
           nil
