@@ -191,6 +191,7 @@ module Fog
             service.create_vm(copy.attributes).body.first
           end
 
+          data.delete("bare_metal")
           merge_attributes(data)
           true
         end
@@ -230,7 +231,7 @@ module Fog
         end
 
         def bare_metal=(set)
-          raise Exception, "Bare metal flag has already been set" unless self.bare_metal.nil?
+          raise Exception, "Bare metal flag has already been set" unless @bare_metal.nil?
           @bare_metal = case set
             when false, 'false', 0, nil, ''
               false
@@ -242,7 +243,7 @@ module Fog
         ##
         # Remove model attributes that aren't expected by the SoftLayer API
         def clean_attributes
-          @bare_metal = attributes.delete(:bare_metal)
+          attributes.delete(:bare_metal)
           attributes.delete(:flavor_id)
           attributes.delete(:ephemeral_storage)
         end
